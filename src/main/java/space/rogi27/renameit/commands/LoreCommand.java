@@ -11,6 +11,7 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.text.Text.Serializer;
 import net.minecraft.util.Formatting;
 
 // TODO: Move lore manipulations to another function
@@ -33,7 +34,7 @@ public class LoreCommand {
                 lore = itemNbt.getList("Lore", NbtElement.STRING_TYPE);
             }
 
-            lore.add(NbtString.of(Text.Serializer.toJson(loreString)));
+            lore.add(NbtString.of(Text.Serialization.toJsonString(loreString)));
             itemNbt.put("Lore", lore);
 
             context.getSource().sendMessage(Text.translatable("text.renameit.lore_added", loreString.copy().formatted(Formatting.WHITE)).formatted(Formatting.GREEN));
@@ -65,7 +66,7 @@ public class LoreCommand {
                 return 0;
             }
 
-            lore.set(context.getArgument("line", Integer.class) - 1, NbtString.of(Text.Serializer.toJson(loreString)));
+            lore.set(context.getArgument("line", Integer.class) - 1, NbtString.of(Text.Serialization.toJsonString(loreString)));
             itemNbt.put("Lore", lore);
 
             context.getSource().sendMessage(Text.translatable("text.renameit.lore_line_changed", context.getArgument("line", Integer.class), loreString.formatted(Formatting.WHITE)).formatted(Formatting.GREEN));
