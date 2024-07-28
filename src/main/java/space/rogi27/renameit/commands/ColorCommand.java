@@ -16,9 +16,6 @@ public class ColorCommand {
             }
 
             int color = context.getArgument("color", Integer.class);
-            DyedColorComponent dyedColor = context.getSource().getPlayer().getMainHandStack().getOrDefault(
-                    DataComponentTypes.DYED_COLOR, new DyedColorComponent(0, true)
-            );
 
             if (color == 0) {
                 context.getSource().getPlayer().getMainHandStack().set(DataComponentTypes.DYED_COLOR, null);
