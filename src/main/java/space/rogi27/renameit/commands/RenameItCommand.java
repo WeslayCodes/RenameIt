@@ -5,9 +5,8 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.LoreComponent;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.math.random.Random;
 
@@ -53,10 +52,9 @@ public class RenameItCommand {
                                         .suggests((context, builder) -> {
                                             if (context.getSource().getEntity().isPlayer()) {
                                                 if (!context.getSource().getPlayer().getMainHandStack().isEmpty()) {
-                                                    NbtCompound itemNbt = context.getSource().getPlayer().getMainHandStack().getOrCreateSubNbt("display");
-                                                    if (itemNbt.contains("Lore")) {
-                                                        NbtList lore = itemNbt.getList("Lore", NbtElement.STRING_TYPE);
-                                                        for (int i = 0; i < lore.size(); i++) {
+                                                    LoreComponent lore = context.getSource().getPlayer().getMainHandStack().get(DataComponentTypes.LORE);
+                                                    if (lore != null) {
+                                                        for (int i = 0; i < lore.lines().size(); i++) {
                                                             builder.suggest(i + 1);
                                                         }
                                                     }
@@ -76,10 +74,9 @@ public class RenameItCommand {
                                         .suggests((context, builder) -> {
                                             if (context.getSource().getEntity().isPlayer()) {
                                                 if (!context.getSource().getPlayer().getMainHandStack().isEmpty()) {
-                                                    NbtCompound itemNbt = context.getSource().getPlayer().getMainHandStack().getOrCreateSubNbt("display");
-                                                    if (itemNbt.contains("Lore")) {
-                                                        NbtList lore = itemNbt.getList("Lore", NbtElement.STRING_TYPE);
-                                                        for (int i = 0; i < lore.size(); i++) {
+                                                    LoreComponent lore = context.getSource().getPlayer().getMainHandStack().get(DataComponentTypes.LORE);
+                                                    if (lore != null) {
+                                                        for (int i = 0; i < lore.lines().size(); i++) {
                                                             builder.suggest(i + 1);
                                                         }
                                                     }
