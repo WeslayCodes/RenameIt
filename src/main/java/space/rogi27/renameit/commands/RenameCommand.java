@@ -9,6 +9,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+
 public class RenameCommand {
     public static int setName(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
         if (context.getSource().getEntity().isPlayer()) {
@@ -16,9 +17,13 @@ public class RenameCommand {
                 context.getSource().sendMessage(Text.translatable("text.renameit.empty").formatted(Formatting.YELLOW));
                 return 0;
             }
-            String name = context.getArgument("name", String.class);
-            if (name.isEmpty()) {
+
+            String name;
+            try {
+                name = context.getArgument("name", String.class);
+            } catch (IllegalArgumentException e) {
                 context.getSource().getPlayer().getMainHandStack().remove(DataComponentTypes.CUSTOM_NAME);
+                context.getSource().sendMessage(Text.translatable("text.renameit.rename_reset").formatted(Formatting.GREEN));
                 return 1;
             }
 

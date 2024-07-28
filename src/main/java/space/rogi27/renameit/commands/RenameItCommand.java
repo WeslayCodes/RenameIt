@@ -29,6 +29,7 @@ public class RenameItCommand {
                                 .suggests((context, builder) -> builder.suggest("Item with <red>cool name</red>").buildFuture())
                                 .executes(RenameCommand::setName)
                         )
+                        .executes(RenameCommand::setName)
                 )
                 .then(literal("color")
                         .requires(Permissions.require("renameit.color", 2))
